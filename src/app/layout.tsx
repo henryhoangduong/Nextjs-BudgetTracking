@@ -1,12 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-} from "@clerk/nextjs";
+import { ClerkProvider, SignedIn, SignedOut } from "@clerk/nextjs";
 import RootProvider from "@/components/providers/RootProvider";
 const geistSans = Geist({
   variable: "--font-geist-sans",

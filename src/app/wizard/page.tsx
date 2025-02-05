@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
 import {
   Card,
+  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -11,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Logo from "@/components/Logo";
+import { CurrencyComobox } from "@/components/CurrencyComobox";
 async function page() {
   const user = await currentUser();
   if (!user) {
@@ -37,6 +39,9 @@ async function page() {
             Set your default currency for transactions
           </CardDescription>
         </CardHeader>
+        <CardContent>
+          <CurrencyComobox />
+        </CardContent>
       </Card>
       <Separator />
       <Button className="w-full" asChild>
