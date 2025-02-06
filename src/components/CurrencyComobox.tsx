@@ -19,13 +19,16 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Currencies, Currency } from "@/lib/currencies";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import SkeletonWrapper from "@/components/SkeletonWrapper";
+import { UpdateUserCurrency } from "@/app/wizard/_actions/userSettings";
+import { toast } from "sonner";
+import { UserSettings } from "@prisma/client";
 
 export function CurrencyComobox() {
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  const [selectedStatus, setSelectedStatus] = React.useState<Currency | null>(
+  const [selectedOption, setSelectedOption] = React.useState<Currency | null>(
     null,
   );
 
@@ -36,19 +39,59 @@ export function CurrencyComobox() {
 
   console.log("@@@ USER SETTINGS", userSettings);
 
+  React.useEffect(() => {
+    if (!userSettings.data) {
+      return;
+    }
+    const userCurrency = Currencies.find(
+      (currency) => currency.value === userSettings.data.currency,
+    );
+    if (userCurrency) setSelectedOption(userCurrency);
+  }, [userSettings.data]);
+
+  const mutation = useMutation({
+    mutationFn: UpdateUserCurrency,
+    onSuccess: (data: UserSettings) => {
+      toast.success("Currency update successfully 🎉", {
+        id: "update-currency",
+      });
+      setSelectedOption(
+        Currencies.find((c) => c.value === data.currency) || null,
+      );
+    },
+    onError: (e) => {
+      console.log(e);
+      toast.error("Something went wrong", { id: "update-currency" });
+    },
+  });
+
+  const selectOption = React.useCallback(
+    (currency: Currency | null) => {
+      if (!currency) {
+        toast.error("Please select a currency");
+        return;
+      }
+      toast.loading("updating currency....", {
+        id: "update-currency",
+      });
+      mutation.mutate(currency.value);
+    },
+    [mutation],
+  );
+
   if (isDesktop) {
     return (
       <SkeletonWrapper loading={userSettings.isLoading}>
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button variant="outline" className="w-full justify-start">
-              {selectedStatus ? <>{selectedStatus.label}</> : <>+ Set status</>}
+              {selectedOption ? <>{selectedOption.label}</> : <>+ Set status</>}
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-[200px] p-0" align="start">
             <OptionList
               setOpen={setOpen}
-              setSelectedOption={setSelectedStatus}
+              setSelectedOption={selectOption}
             />
           </PopoverContent>
         </Popover>
@@ -59,13 +102,17 @@ export function CurrencyComobox() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="outline" className="w-[150px] justify-start">
-          {selectedStatus ? <>{selectedStatus.label}</> : <>Set Currency</>}
+        <Button
+          variant="outline"
+          className="w-[150px] justify-start"
+          disabled={mutation.isPending}
+        >
+          {selectedOption ? <>{selectedOption.label}</> : <>Set Currency</>}
         </Button>
       </DrawerTrigger>
       <DrawerContent>
         <div className="mt-4 border-t">
-          <OptionList setOpen={setOpen} setSelectedOption={setSelectedStatus} />
+          <OptionList setOpen={setOpen} setSelectedOption={setSelectedOption} />
         </div>
       </DrawerContent>
     </Drawer>

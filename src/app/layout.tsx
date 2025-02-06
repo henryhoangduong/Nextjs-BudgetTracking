@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider, SignedIn, SignedOut } from "@clerk/nextjs";
 import RootProvider from "@/components/providers/RootProvider";
+import { Toaster } from "sonner";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,6 +34,7 @@ export default function RootLayout({
           <SignedOut />
           <SignedIn />
           <RootProvider>{children}</RootProvider>
+          <Toaster richColors position="bottom-right" />
         </body>
       </html>
     </ClerkProvider>
