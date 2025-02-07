@@ -89,10 +89,7 @@ export function CurrencyComobox() {
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-[200px] p-0" align="start">
-            <OptionList
-              setOpen={setOpen}
-              setSelectedOption={selectOption}
-            />
+            <OptionList setOpen={setOpen} setSelectedOption={selectOption} />
           </PopoverContent>
         </Popover>
       </SkeletonWrapper>
