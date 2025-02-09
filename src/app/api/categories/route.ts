@@ -22,10 +22,10 @@ export async function GET(request: Request) {
     where: {
       userId: user.id,
       ...(type && { type }),
-      },
-      orderBy: {
-          name:"asc"
-      }
+    },
+    orderBy: {
+      name: "asc",
+    },
   });
-    return Response.json(categories);
+  return Response.json(categories);
 }
