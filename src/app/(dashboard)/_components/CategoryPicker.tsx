@@ -2,11 +2,16 @@
 
 import { Button } from "@/components/ui/button";
 import { Command, CommandInput } from "@/components/ui/command";
-import { Popover, PopoverTrigger,PopoverContent } from "@/components/ui/popover";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from "@/components/ui/popover";
 import { TransactionType } from "@/lib/types";
 import { Category } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
+import CreateCategoryDialog from "./CreateCategoryDialog";
 
 interface Props {
   type: TransactionType;
@@ -42,10 +47,11 @@ const CategoryPicker = ({ type }: Props) => {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
-        <Command onSubmit={(e)=>e.preventDefault()}>
-          <CommandInput placeholder="Search category...."/>
-          </Command>
-        </PopoverContent>
+        <Command onSubmit={(e) => e.preventDefault()}>
+          <CommandInput placeholder="Search category...." />
+          <CreateCategoryDialog type={type} />
+        </Command>
+      </PopoverContent>
     </Popover>
   );
 };
