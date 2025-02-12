@@ -3,13 +3,7 @@ import React from "react";
 import { TransactionType } from "@/lib/types";
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import {
-  AlertDialog,
-  AlertDialogTrigger,
-  AlertDialogContent,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+
 
 interface Props {
   trigger: ReactNode;
@@ -31,6 +25,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import CategoryPicker from "./CategoryPicker";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 
 function CreateTransactionDialog({ trigger, type }: Props) {
   const form = useForm<CreateTransactionSchemaType>({
@@ -41,11 +36,11 @@ function CreateTransactionDialog({ trigger, type }: Props) {
     },
   });
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>
+    <Dialog>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>
             Create a new
             <span
               className={cn(
@@ -56,8 +51,8 @@ function CreateTransactionDialog({ trigger, type }: Props) {
               {type}
             </span>
             transaction
-          </AlertDialogTitle>
-        </AlertDialogHeader>
+          </DialogTitle>
+        </DialogHeader>
         <Form {...form}>
           <form className="space-y-4">
             <FormField
@@ -110,8 +105,8 @@ function CreateTransactionDialog({ trigger, type }: Props) {
             </div>
           </form>
         </Form>
-      </AlertDialogContent>
-    </AlertDialog>
+      </DialogContent>
+    </Dialog>
   );
 }
 export default CreateTransactionDialog;
