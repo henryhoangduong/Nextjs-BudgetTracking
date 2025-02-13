@@ -4,7 +4,6 @@ import { TransactionType } from "@/lib/types";
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-
 interface Props {
   trigger: ReactNode;
   type: TransactionType;
@@ -25,7 +24,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import CategoryPicker from "./CategoryPicker";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 function CreateTransactionDialog({ trigger, type }: Props) {
   const form = useForm<CreateTransactionSchemaType>({
