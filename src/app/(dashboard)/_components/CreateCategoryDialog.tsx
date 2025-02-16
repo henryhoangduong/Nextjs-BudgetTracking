@@ -67,7 +67,7 @@ const CreateCategoryDialog = ({ type, successCallback }: Props) => {
       toast.success(`Category ${data.name} created successfully 🎉 `, {
         id: "create-category",
       });
-      successCallback(data)
+      successCallback(data);
       await queryClient.invalidateQueries({
         queryKey: ["categories"],
       });
@@ -126,7 +126,11 @@ const CreateCategoryDialog = ({ type, successCallback }: Props) => {
                 <FormItem>
                   <FormLabel></FormLabel>
                   <FormControl>
-                    <Input defaultValue={""} {...field} placeholder="Category" />
+                    <Input
+                      defaultValue={""}
+                      {...field}
+                      placeholder="Category"
+                    />
                   </FormControl>
                   <FormDescription>
                     Transaction description (optional)

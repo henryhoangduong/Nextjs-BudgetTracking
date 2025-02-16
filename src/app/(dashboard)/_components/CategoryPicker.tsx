@@ -27,7 +27,7 @@ interface Props {
   onChange: (value: string) => void;
 }
 
-const CategoryPicker = ({ type,onChange }: Props) => {
+const CategoryPicker = ({ type, onChange }: Props) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
@@ -39,17 +39,17 @@ const CategoryPicker = ({ type,onChange }: Props) => {
 
   useEffect(() => {
     if (!value) return;
-    onChange(value)
-  },[onChange,value])
+    onChange(value);
+  }, [onChange, value]);
 
   const selectedCategory = categoriesQuery.data?.find(
     (category: Category) => category.name == value,
   );
 
-  const successCallback = (category: Category)=>{
-    setValue(category.name)
-    setOpen((prev)=>!prev)
-  }
+  const successCallback = (category: Category) => {
+    setValue(category.name);
+    setOpen((prev) => !prev);
+  };
   return (
     <Popover open={open} onOpenChange={setOpen} modal={true}>
       <PopoverTrigger asChild>
@@ -64,7 +64,7 @@ const CategoryPicker = ({ type,onChange }: Props) => {
           ) : (
             "Select category"
           )}
-          <ChevronsUpDown/>
+          <ChevronsUpDown />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
@@ -90,10 +90,12 @@ const CategoryPicker = ({ type,onChange }: Props) => {
                       }}
                     >
                       <CategoryRow category={category} />
-                      <Check className={cn(
-                        "mr-2 w-4 h-4 opacity-0",
-                        value === category.name && "opacity-100"
-                      )} />
+                      <Check
+                        className={cn(
+                          "mr-2 w-4 h-4 opacity-0",
+                          value === category.name && "opacity-100",
+                        )}
+                      />
                     </CommandItem>
                   ),
                 )}
