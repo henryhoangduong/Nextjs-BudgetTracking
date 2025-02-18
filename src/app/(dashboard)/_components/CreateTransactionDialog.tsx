@@ -78,27 +78,28 @@ function CreateTransactionDialog({ trigger, type }: Props) {
         description: "",
         amount: 0,
         date: new Date(),
-        category: undefined
+        category: undefined,
       });
       queryClient.invalidateQueries({
         queryKey: ["overview"],
-        
       });
-      setOpen((prev)=> !prev)
+      setOpen((prev) => !prev);
     },
-    onError:()=> {
-      
-    }
+    onError: () => {},
   });
 
-  const onSubmit = useCallback((values: CreateTransactionSchemaType) => {
-    toast.loading("Creating transaction", {
-     id:"create-transaction"
-    }) 
-    mutate({
-      ...values, date: DateToUTCDate(values.date)
-    })
-  },[mutate])
+  const onSubmit = useCallback(
+    (values: CreateTransactionSchemaType) => {
+      toast.loading("Creating transaction", {
+        id: "create-transaction",
+      });
+      mutate({
+        ...values,
+        date: DateToUTCDate(values.date),
+      });
+    },
+    [mutate],
+  );
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
