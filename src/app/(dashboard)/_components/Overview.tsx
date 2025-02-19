@@ -6,6 +6,7 @@ import { differenceInDays, startOfMonth } from "date-fns";
 import { difference } from "next/dist/build/utils";
 import React, { useState } from "react";
 import { toast } from "sonner";
+import StatusCards from "./StatusCards";
 
 const Overview = ({ userSettings }: { userSettings: UserSettings }) => {
   const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
@@ -35,6 +36,11 @@ const Overview = ({ userSettings }: { userSettings: UserSettings }) => {
           />
         </h2>
       </div>
+      <StatusCards
+        userSettings={userSettings}
+        from={dateRange.from}
+        to={dateRange.to}
+      />
     </>
   );
 };
