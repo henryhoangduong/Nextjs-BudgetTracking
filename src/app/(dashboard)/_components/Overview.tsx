@@ -3,10 +3,9 @@ import { DateRangePicker } from "@/components/ui/date-range-picker";
 import { MAX_DATE_RANGE_DAYS } from "@/lib/constant";
 import { UserSettings } from "@prisma/client";
 import { differenceInDays, startOfMonth } from "date-fns";
-import { difference } from "next/dist/build/utils";
 import React, { useState } from "react";
 import { toast } from "sonner";
-import StatusCards from "./StatusCards";
+import StatsCards from "./StatsCards";
 
 const Overview = ({ userSettings }: { userSettings: UserSettings }) => {
   const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
@@ -36,7 +35,7 @@ const Overview = ({ userSettings }: { userSettings: UserSettings }) => {
           />
         </h2>
       </div>
-      <StatusCards
+      <StatsCards
         userSettings={userSettings}
         from={dateRange.from}
         to={dateRange.to}
