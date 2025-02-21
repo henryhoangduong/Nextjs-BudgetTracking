@@ -35,11 +35,13 @@ const Overview = ({ userSettings }: { userSettings: UserSettings }) => {
           />
         </h2>
       </div>
-      <StatsCards
-        userSettings={userSettings}
-        from={dateRange.from}
-        to={dateRange.to}
-      />
+      <div className="container flex w-full flex-col gap-2">
+        <StatsCards
+          userSettings={userSettings}
+          from={dateRange.from}
+          to={dateRange.to}
+        />
+      </div>
     </>
   );
 };
