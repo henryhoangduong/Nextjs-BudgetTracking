@@ -50,6 +50,9 @@ const HistoryPeriodSelector = ({
             years={historyPeriods.data || []}
           />
         </SkeletonWrapper>
+        {timeFrame === "month" && (
+          <MonthSelector period={period} setPeriod={setPeriod} />
+        )}
       </div>
     </div>
   );
@@ -87,6 +90,43 @@ function YearSelector({
               {year}
             </SelectItem>
           ))}
+      </SelectContent>
+    </Select>
+  );
+}
+
+function MonthSelector({
+  period,
+  setPeriod,
+}: {
+  period: Period;
+  setPeriod: (period: Period) => void;
+}) {
+  return (
+    <Select
+      value={period.month.toString()}
+      onValueChange={(value) => {
+        setPeriod({
+          month: period.month,
+          year: parseInt(value),
+        });
+      }}
+    >
+      <SelectTrigger className="w-[180px]">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((month, index) => {
+          const monthStr = new Date(period.year, month, 1).toLocaleString(
+            "default",
+            { month: "long" },
+          );
+          return (
+            <SelectItem key={index} value={month.toString()}>
+              {monthStr}
+            </SelectItem>
+          );
+        })}
       </SelectContent>
     </Select>
   );
