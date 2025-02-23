@@ -40,6 +40,7 @@ const History = ({ userSettings }: Props) => {
   }, [userSettings.currency]);
 
   const dataAvailable = historyDataQuery && historyDataQuery.data?.length > 0;
+  console.log("historyDataQuery.data: ",historyDataQuery.data)
   return (
     <div className="container p-6">
       <h2 className="mt-12 text-3xl font-bold">History</h2>
@@ -71,7 +72,7 @@ const History = ({ userSettings }: Props) => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          {!dataAvailable && (
+          {dataAvailable && (
             <ResponsiveContainer width={"100%"} height={300}>
               <BarChart
                 height={300}
@@ -119,7 +120,7 @@ const History = ({ userSettings }: Props) => {
                         month: "long",
                       });
                     }
-                    return data.toLocaleDateString("default", {
+                    return date.toLocaleDateString("default", {
                       day: "2-digit",
                     });
                   }}
@@ -130,18 +131,20 @@ const History = ({ userSettings }: Props) => {
                   tickLine={false}
                   axisLine={false}
                 />
-                <Bar dataKey={"expense"} label="Expense" fill="url(#incomeBar)" radius={4} className="cursor-pointer"/>
+                <Bar dataKey={"income"} label="Income" fill="url(#incomeBar)" radius={4} className="cursor-pointer"/>
+                <Bar dataKey={"expense"} label="Expense" fill="url(#expenseBar)" radius={4} className="cursor-pointer"/>
+
               </BarChart>
             </ResponsiveContainer>
           )}
-          {/* {!dataAvailable && (
+          {!dataAvailable && (
             <Card className="flex h-[300px] flex-col items-center justify-center bg-background">
               No data for the selected period
               <p className="text-sm text-muted-foreground">
                 Try selecting a different period or adding new transactions
               </p>
             </Card>
-          )} */}
+          )}
         </CardContent>
       </Card>
     </div>
