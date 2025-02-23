@@ -22,8 +22,8 @@ const Overview = ({ userSettings }: { userSettings: UserSettings }) => {
             initialDateFrom={dateRange.from}
             initialDateTo={dateRange.to}
             showCompare={false}
-            onUpdate={(value) => {
-              const { from, to } = value.range;
+            onUpdate={values => {
+              const { from, to } = values.range;
               if (!from || !to) return;
               if (differenceInDays(to, from) > MAX_DATE_RANGE_DAYS) {
                 toast.error(
