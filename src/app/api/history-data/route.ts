@@ -8,10 +8,11 @@ import { getDaysInMonth } from "date-fns";
 const getHistoryDataSchema = z.object({
   timeframe: z.enum(["month", "year"]),
   month: z.coerce.number().min(0).max(11).default(0),
-  year: z.coerce.number().min(0).max(2000).default(3000),
+  year: z.coerce.number().min(2000).max(3000),
 });
 
 export async function GET(request: Request) {
+  console.log("request: ",request)
   const user = await currentUser();
   if (!user) {
     redirect("/sign-in");
@@ -20,7 +21,8 @@ export async function GET(request: Request) {
   const timeframe = searchParams.get("timeframe");
   const year = searchParams.get("year");
   const month = searchParams.get("month");
-
+  console.log("year: ", year);
+  console.log("month: ",month)
   const queryParams = getHistoryDataSchema.safeParse({
     timeframe,
     month,
@@ -31,11 +33,11 @@ export async function GET(request: Request) {
       status: 400,
     });
   }
-  const data =await getHistoryData(user.id, queryParams.data.timeframe, {
+  const data = await getHistoryData(user.id, queryParams.data.timeframe, {
     month: queryParams.data.month,
     year: queryParams.data.year,
   });
-    return Response.json(data);
+  return Response.json(data);
 }
 
 async function getHistoryData(
@@ -110,18 +112,20 @@ async function getMonthHistoryData(
     },
   });
   if (!result || result.length == 0) return [];
-    const history: HistoryData[] = [];
-    const daysInMonth = getDaysInMonth(new Date(year, month))
-      for (let i = 0; i < 31; i++) {
+  const history: HistoryData[] = [];
+  const daysInMonth = getDaysInMonth(new Date(year, month));
+  for (let i = 0; i < 31; i++) {
     let expense = 0;
     let income = 0;
     const day = result.find((row) => row.day == i);
-        if (day) {
+    if (day) {
       expense = day._sum.expense || 0;
       income = day._sum.income || 0;
     }
-    history.push({ expense,income,year,month,day:i});
+    history.push({ expense, income, year, month, day: i });
   }
 }
 
-export type GetHistoryDataResponseType = Awaited<ReturnType<typeof getHistoryData>>
+export type GetHistoryDataResponseType = Awaited<
+  ReturnType<typeof getHistoryData>
+>;
