@@ -8,7 +8,6 @@ import { toast } from "sonner";
 import StatsCards from "./StatsCards";
 import CategoriesStats from "./CategoriesStats";
 
-
 const Overview = ({ userSettings }: { userSettings: UserSettings }) => {
   const [dateRange, setDateRange] = useState<{ from: Date; to: Date }>({
     from: startOfMonth(new Date()),

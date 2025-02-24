@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { GetFormatterForCurrency } from "@/lib/helpers";
 import { Period, TimeFrame } from "@/lib/types";
 import { UserSettings } from "@prisma/client";
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import HistoryPeriodSelector from "./HistoryPeriodSelector";
 import { useQuery } from "@tanstack/react-query";
 import {
@@ -16,6 +16,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { cn } from "@/lib/utils";
+import CountUp from "react-countup";
 interface Props {
   userSettings: UserSettings;
 }
@@ -40,7 +42,7 @@ const History = ({ userSettings }: Props) => {
   }, [userSettings.currency]);
 
   const dataAvailable = historyDataQuery && historyDataQuery.data?.length > 0;
-  console.log("historyDataQuery.data: ",historyDataQuery.data)
+  console.log("historyDataQuery.data: ", historyDataQuery.data);
   return (
     <div className="container p-6">
       <h2 className="mt-12 text-3xl font-bold">History</h2>
@@ -131,9 +133,28 @@ const History = ({ userSettings }: Props) => {
                   tickLine={false}
                   axisLine={false}
                 />
-                <Bar dataKey={"income"} label="Income" fill="url(#incomeBar)" radius={4} className="cursor-pointer"/>
-                <Bar dataKey={"expense"} label="Expense" fill="url(#expenseBar)" radius={4} className="cursor-pointer"/>
-
+                <Tooltip
+                  cursor={{
+                    opacity: 0.1,
+                  }}
+                  content={(props) => (
+                    <CustomeToolTip formatter={formatter} {...props} />
+                  )}
+                />
+                <Bar
+                  dataKey={"income"}
+                  label="Income"
+                  fill="url(#incomeBar)"
+                  radius={4}
+                  className="cursor-pointer"
+                />
+                <Bar
+                  dataKey={"expense"}
+                  label="Expense"
+                  fill="url(#expenseBar)"
+                  radius={4}
+                  className="cursor-pointer"
+                />
               </BarChart>
             </ResponsiveContainer>
           )}
@@ -152,3 +173,68 @@ const History = ({ userSettings }: Props) => {
 };
 
 export default History;
+
+const CustomeToolTip = ({ formatter, payload, active }: any) => {
+  if (!active || !payload || payload.length === 0) return null;
+  const data = payload[0].payload;
+  const { expense, income } = data;
+
+  return (
+    <div className="min-w-[300px] rounded border bg-background p-4">
+      <ToolTipRow
+        label="Expense"
+        value={expense}
+        formatter={formatter}
+        bgColor="bg-red-500"
+        textColor="text-red-500"
+      />
+      <ToolTipRow
+        label="Income"
+        value={income}
+        formatter={formatter}
+        bgColor="bg-emrald-500"
+        textColor="text-emerald-500"
+      />
+      <ToolTipRow
+        label="Income"
+        value={income - expense}
+        formatter={formatter}
+        bgColor="bg-gray-100"
+        textColor="text-foreground"
+      />
+    </div>
+  );
+};
+
+const ToolTipRow = ({
+  label,
+  value,
+  bgColor,
+  textColor,
+  formatter,
+}: {
+  label: string;
+  value: number;
+  textColor: string;
+  bgColor: string;
+  formatter: Intl.NumberFormat;
+}) => {
+  return (
+    <div className="flex items-center gap-2">
+      <div className={cn("h-4 w-4 rounded-full", bgColor)} />
+      <div className="flex w-full justify-between">
+        <p className="text-sm text-muted-foreground">{label} </p>
+        <div className={cn("text-sm font-bold", textColor)}>
+          <CountUp
+            duration={0.5}
+            preserveValue
+            end={value}
+            decimal={"0"}
+            formattingFn={(value) => formatter.format(value)}
+            className="text-sm"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};

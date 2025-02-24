@@ -12,7 +12,7 @@ const getHistoryDataSchema = z.object({
 });
 
 export async function GET(request: Request) {
-  console.log("request: ",request)
+  console.log("request: ", request);
   const user = await currentUser();
   if (!user) {
     redirect("/sign-in");
@@ -22,7 +22,7 @@ export async function GET(request: Request) {
   const year = searchParams.get("year");
   const month = searchParams.get("month");
   console.log("year: ", year);
-  console.log("month: ",month)
+  console.log("month: ", month);
   const queryParams = getHistoryDataSchema.safeParse({
     timeframe,
     month,
@@ -89,7 +89,7 @@ async function getYearHistoryData(userId: string, year: number) {
     }
     history.push({ year, month: i, expense, income });
   }
-  return history
+  return history;
 }
 
 async function getMonthHistoryData(
@@ -125,7 +125,7 @@ async function getMonthHistoryData(
     }
     history.push({ expense, income, year, month, day: i });
   }
-  return history
+  return history;
 }
 
 export type GetHistoryDataResponseType = Awaited<
