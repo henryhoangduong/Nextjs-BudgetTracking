@@ -18,6 +18,7 @@ export async function GET(request: Request) {
     });
   }
   const type = queryParams.data;
+
   const categories = await prisma.category.findMany({
     where: {
       userId: user.id,
