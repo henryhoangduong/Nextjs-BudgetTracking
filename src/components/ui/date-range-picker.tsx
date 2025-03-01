@@ -115,9 +115,9 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
         }
       : undefined,
   );
-
-  // Refs to store the values of range and rangeCompare when the date picker is opened
+  // @ts-ignore
   const openedRangeRef = useRef<DateRange | undefined>();
+  // @ts-ignore
   const openedRangeCompareRef = useRef<DateRange | undefined>();
 
   const [selectedPreset, setSelectedPreset] = useState<string | undefined>(
