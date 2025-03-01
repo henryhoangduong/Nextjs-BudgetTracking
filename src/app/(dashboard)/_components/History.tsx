@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { GetFormatterForCurrency } from "@/lib/helpers";
 import { Period, TimeFrame } from "@/lib/types";
 import { UserSettings } from "@prisma/client";
-import React, { useCallback, useMemo, useState } from "react";
+import React, {  useMemo, useState } from "react";
 import HistoryPeriodSelector from "./HistoryPeriodSelector";
 import { useQuery } from "@tanstack/react-query";
 import {

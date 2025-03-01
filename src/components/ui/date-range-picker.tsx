@@ -1,6 +1,4 @@
-/* eslint-disable max-lines */
 "use client";
-
 import React, { type FC, useState, useEffect, useRef, JSX } from "react";
 import { Button } from "./button";
 import { Popover, PopoverContent, PopoverTrigger } from "./popover";
@@ -289,6 +287,7 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
 
   useEffect(() => {
     checkPreset();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [range]);
 
   const PresetButton = ({
@@ -326,10 +325,12 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
   };
 
   useEffect(() => {
+    
     if (isOpen) {
       openedRangeRef.current = range;
       openedRangeCompareRef.current = rangeCompare;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   return (

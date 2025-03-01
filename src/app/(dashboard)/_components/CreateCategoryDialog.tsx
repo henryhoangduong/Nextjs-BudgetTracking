@@ -5,7 +5,7 @@ import {
 import React, { ReactNode, useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CircleOff, Loader2, Plus, PlusSquare } from "lucide-react";
+import { CircleOff, Loader2, PlusSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TransactionType } from "@/lib/types";
 import { cn } from "@/lib/utils";
