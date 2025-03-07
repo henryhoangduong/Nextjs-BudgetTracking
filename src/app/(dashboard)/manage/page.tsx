@@ -135,17 +135,18 @@ const CategoryCard = ({ category }: { category: Category }) => {
         <span className="text-3xl" role="img">
           {category.icon}
         </span>
-        <DeleteCategoryDialog trigger={
-
-           <Button
-          variant={"secondary"}
-          className="flex w-full border-separate items-center gap-2 rounded-t-none text-muted-foreground hover:bg-red-500/20"
-        >
-          <TrashIcon className="h-4 w-4" />
-          Remove
-        </Button>
-        } category={category}/>
-       
+        <DeleteCategoryDialog
+          trigger={
+            <Button
+              variant={"secondary"}
+              className="flex w-full border-separate items-center gap-2 rounded-t-none text-muted-foreground hover:bg-red-500/20"
+            >
+              <TrashIcon className="h-4 w-4" />
+              Remove
+            </Button>
+          }
+          category={category}
+        />
       </div>
     </div>
   );

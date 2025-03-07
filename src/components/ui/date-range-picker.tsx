@@ -325,7 +325,6 @@ export const DateRangePicker: FC<DateRangePickerProps> & {
   };
 
   useEffect(() => {
-    
     if (isOpen) {
       openedRangeRef.current = range;
       openedRangeCompareRef.current = rangeCompare;
